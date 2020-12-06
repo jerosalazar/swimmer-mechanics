@@ -37,28 +37,24 @@
       </FormulateForm>
     </div>
     <div class="column">
-      <DragChart
-        :density-value="density"
-        :swimmer-angle="angle"
-        :swimmer="swimmer"
+      <GraphComponent
+        :data="dragForceData"
+        title="Fuerza de arrastre"
       />
-      <SustentationChart
-        :density-value="density"
-        :swimmer-angle="angle"
-        :swimmer="swimmer"
+      <GraphComponent
+        :data="sustainForceData"
+        title="Fuerza de sustentación"
       />
     </div>
   </div>
 </template>
 
 <script>
-import DragChart from './DragChart.vue'
-import SustentationChart from './SustentationChart.vue'
+import GraphComponent from './GraphComponent.vue'
 
 export default {
   components: {
-    DragChart,
-    SustentationChart,
+    GraphComponent,
   },
   data() {
     return {
@@ -101,7 +97,59 @@ export default {
       this.swimmer = this.swimmerOptions[this.formValues.swimmer];
     },
   },
-  
+  computed: {
+    dragForceData() { 
+      let points = [];
+      let labels = [];
+      let proyectedLength = this.swimmer.length * Math.sin(this.angle * Math.PI / 180)
+      proyectedLength += this.swimmer.top * Math.cos(this.angle * Math.PI / 180);
+      let proyectedSurface = proyectedLength * this.swimmer.width;
+
+      for (let i = 0; i < 2.5; i+=0.02) {
+        let dragCoefficient = 0.7156 - 0.1480 * i;
+
+        points.push((this.density * dragCoefficient * proyectedSurface * i ** 2) / 2)
+        labels.push(i.toFixed(2));
+      }
+
+      return {
+        labels: labels,
+        datasets: [
+          {
+            borderColor: '#f87979',
+            pointRadius: 0,
+            data: points,
+          }
+        ]
+      };
+    },
+    sustainForceData() { 
+      let points = [];
+      let labels = [];
+      let proyectedLength = this.swimmer.length * Math.sin(this.angle * Math.PI / 180)
+      proyectedLength += this.swimmer.top * Math.cos(this.angle * Math.PI / 180);
+      let proyectedSurface = proyectedLength * this.swimmer.width;
+
+      let sustainCoefficient = 0.2 + 0.4 / 45 * this.angle;
+      if (this.angle > 45) { sustainCoefficient = 1.1 - 0.5 / 45 * this.angle }
+
+      for (let i = 0; i < 2.5; i+=0.02) {
+        points.push((this.density * sustainCoefficient * proyectedSurface * i ** 2) / 2)
+        labels.push(i.toFixed(2));
+      }
+
+      return {
+        labels: labels,
+        datasets: [
+          {
+            borderColor: '#f87979',
+            pointRadius: 0,
+            data: points,
+          }
+        ]
+      };
+    },
+  },
 }
 </script>
 
