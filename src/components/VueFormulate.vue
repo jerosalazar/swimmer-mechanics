@@ -1,22 +1,82 @@
 <template>
   <div class="row">
+    <h1>Mecánica de la natación</h1>
+    <br>
     <div class="column">
-      <h2>Mecánica de la natación</h2>
-      <FormulateForm v-model="formValues" @submit="handleSubmit">
-        <FormulateInput
-          name="swimmer"
-          :options="{
-            first: 'Nadador 1',
-            second: 'Nadador 2',
-            third: 'Nadador 3',
-            fourth: 'Nadador 4'
-            }"
-          value="first"
-          type="radio"
-          label="Selecciona el nadador"
+      <div class="notification-container">
+        <h2 class="subtitle">Fuerza de arrastre</h2>
+        <img
+          src="../assets/question.png"
+          width="20px"
+          height="20px"
+          @click="() => {dragVisibility = !dragVisibility}"
         />
+        <div
+          id="swimmers-info"
+          class="notification drag-info formulate-input"
+          v-show="dragVisibility"
+        >
+          <p>La fuerza de arrastre actua en el sentido opuesto</p>
+          <p>al movimiento y se puede calcular como:</p>
+          <p>D = CD p S v<sup>2</sup>/2</p>
+          <p>Donde CD es el coeficiente de roce, p la densidad</p>
+          <p>del fluido, v la velocidad y S la superficie proyectada</p>
+          <p>perpendicular al movimiento.</p>
+        </div>
+      </div>
+      <div class="notification-container">
+        <h2 class="subtitle">Fuerza de sustentación</h2>
+        <img
+          src="../assets/question.png"
+          width="20px"
+          height="20px"
+          @click="() => {sustainVisibility = !sustainVisibility}"
+        />
+        <div
+          id="swimmers-info"
+          class="notification sustain-info formulate-input"
+          v-show="sustainVisibility"
+        >
+          <p>La fuerza de sustentación actua de forma perpendicular</p>
+          <p>al movimiento y se puede calcular como:</p>
+          <p>D = CL p S v<sup>2</sup>/2</p>
+          <p>Donde CL es el coeficiente de sustentación, p la densidad</p>
+          <p>del fluido, v la velocidad y S la superficie proyectada</p>
+          <p>perpendicular al movimiento.</p>
+        </div>
+      </div>
+      <FormulateForm v-model="formValues" @submit="handleSubmit">
+        <div class="swimmers-notification-container">
+          <FormulateInput
+            name="swimmer"
+            :options="{
+              first: 'Nadador 1',
+              second: 'Nadador 2',
+              third: 'Nadador 3',
+              fourth: 'Nadador 4'
+              }"
+            value="first"
+            type="radio"
+            label="Selecciona el nadador"
+          />
+          <img
+            src="../assets/question.png"
+            width="20px"
+            height="20px"
+            @click="() => {showSwimmersInfo = !showSwimmersInfo}"
+          />
+          <div
+            class="notification swimmers-info formulate-input"
+            v-show="showSwimmersInfo"
+          >
+            <p>Nadador 1. Altura: 170 cm. Masa: 75 kg.</p>
+            <p>Nadador 2. Altura: 180 cm. Masa: 83 kg.</p>
+            <p>Nadador 3. Altura: 165 cm. Masa: 60 kg.</p>
+            <p>Nadador 4. Altura: 165 cm. Masa: 72 kg.</p>
+          </div>
+        </div>
         <FormulateInput
-          label="Densidad del medio"
+          label="Densidad del medio (kg/m3)"
           type="range"
           name="densityValue"
           min="700"
@@ -25,7 +85,7 @@
           show-value="true"
         />
         <FormulateInput
-          label="Ángulo del nadador"
+          label="Ángulo del nadador (grados)"
           type="range"
           name="swimmerAngle"
           min="0"
@@ -33,7 +93,7 @@
           :value="angle"
           show-value="true"
         />
-        <FormulateInput type="submit" label="Submit"/>
+        <FormulateInput type="submit" label="Calcular"/>
       </FormulateForm>
     </div>
     <div class="column">
@@ -58,6 +118,9 @@ export default {
   },
   data() {
     return {
+      showSwimmersInfo: false,
+      dragVisibility: false,
+      sustainVisibility: false,
       formValues: {},
       density: 1000,
       angle: 10,
@@ -165,4 +228,41 @@ export default {
   display: table;
   clear: both;
 }
+
+.notification-container {
+  display: flex;
+  align-items: center;
+}
+
+.swimmers-notification-container {
+  display: flex;
+}
+
+.notification {
+  position: absolute;
+  z-index: 99;
+  background-color: rgb(211, 204, 205);
+  padding: 0 10px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.swimmers-info {
+  left: 15%;
+}
+
+.drag-info {
+  left: 20%;
+  top: 24%;
+}
+
+.sustain-info {
+  left: 24%;
+  top: 35%;
+}
+
+.subtitle {
+  margin: 15px 0;
+}
+
 </style>
