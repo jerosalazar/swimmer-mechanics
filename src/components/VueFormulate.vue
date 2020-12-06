@@ -48,7 +48,6 @@
         :swimmer="swimmer"
       />
     </div>
-    {{ formValues }}
   </div>
 </template>
 
