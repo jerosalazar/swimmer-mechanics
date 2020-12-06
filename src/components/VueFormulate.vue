@@ -1,110 +1,132 @@
 <template>
-  <div class="row">
+  <div>
     <h1>Mecánica de la natación</h1>
     <br>
-    <div class="column-left">
-      <div class="notification-container">
-        <h2 class="subtitle">Fuerza de arrastre</h2>
-        <img
-          src="../assets/question.png"
-          width="20px"
-          height="20px"
-          @click="() => {dragVisibility = !dragVisibility}"
-        />
-        <div
-          id="swimmers-info"
-          class="notification drag-info formulate-input"
-          v-show="dragVisibility"
-        >
-          <p>La fuerza de arrastre actua en el sentido opuesto</p>
-          <p>al movimiento y se puede calcular como:</p>
-          <p>D = CD p S v<sup>2</sup>/2</p>
-          <p>Donde CD es el coeficiente de roce, p la densidad</p>
-          <p>del fluido, v la velocidad y S la superficie proyectada</p>
-          <p>perpendicular al movimiento.</p>
-        </div>
-      </div>
-      <div class="notification-container">
-        <h2 class="subtitle">Fuerza de sustentación</h2>
-        <img
-          src="../assets/question.png"
-          width="20px"
-          height="20px"
-          @click="() => {sustainVisibility = !sustainVisibility}"
-        />
-        <div
-          id="swimmers-info"
-          class="notification sustain-info formulate-input"
-          v-show="sustainVisibility"
-        >
-          <p>La fuerza de sustentación actua de forma perpendicular</p>
-          <p>al movimiento y se puede calcular como:</p>
-          <p>D = CL p S v<sup>2</sup>/2</p>
-          <p>Donde CL es el coeficiente de sustentación, p la densidad</p>
-          <p>del fluido, v la velocidad y S la superficie proyectada</p>
-          <p>perpendicular al movimiento.</p>
-        </div>
-      </div>
-      <FormulateForm v-model="formValues" @submit="handleSubmit">
-        <div class="swimmers-notification-container">
-          <FormulateInput
-            name="swimmer"
-            :options="{
-              first: 'Nadador 1',
-              second: 'Nadador 2',
-              third: 'Nadador 3',
-              fourth: 'Nadador 4'
-              }"
-            value="first"
-            type="radio"
-            label="Selecciona el nadador"
-          />
+    <div
+      class="welcome"
+      v-if="!showBody"
+    >
+      ¡Bienvenid@! En esta página mostramos un pequeño análisis acerca de las principales fuerzas que actúan sobre un nadador en equilibrio: las fuerzas de arrastre y sustentación. Para esto consideramos la densidad del fluido en el que se encuentra, sus características físicas (estatura y masa) y el ángulo que forma con el eje horizontal al desplazarse. Estos parámetros influyen en las fuerzas de arrastre y sustentación necesarias para que el nadador logre estabilizarse en el nado.
+      <br>
+      A continuación, puedes observar cómo estos parámetros varían la magnitud de fuerza necesaria para que el nadador se encuentre estable a una cierta velocidad.
+    <br><br>
+    <div class="formulate-input">
+    <button
+      class="welcome-button"
+      @click="() => { showBody = !showBody }"
+    >
+      Ver gráficos
+    </button>
+    </div>
+    </div>
+    <div
+      class="row"
+      v-if="showBody"
+    >
+      <div class="column-left">
+        <div class="notification-container">
+          <h2 class="subtitle">Fuerza de arrastre</h2>
           <img
             src="../assets/question.png"
             width="20px"
             height="20px"
-            @click="() => {showSwimmersInfo = !showSwimmersInfo}"
+            @click="() => {dragVisibility = !dragVisibility}"
           />
           <div
-            class="notification swimmers-info formulate-input"
-            v-show="showSwimmersInfo"
+            id="swimmers-info"
+            class="notification drag-info formulate-input"
+            v-show="dragVisibility"
           >
-            <p>Nadador 1. Altura: 170 cm. Masa: 75 kg.</p>
-            <p>Nadador 2. Altura: 180 cm. Masa: 83 kg.</p>
-            <p>Nadador 3. Altura: 165 cm. Masa: 60 kg.</p>
-            <p>Nadador 4. Altura: 165 cm. Masa: 72 kg.</p>
+            <p>La fuerza de arrastre actua en el sentido opuesto</p>
+            <p>al movimiento y se puede calcular como:</p>
+            <p>D = CD p S v<sup>2</sup>/2</p>
+            <p>Donde CD es el coeficiente de roce, p la densidad</p>
+            <p>del fluido, v la velocidad y S la superficie proyectada</p>
+            <p>perpendicular al movimiento.</p>
           </div>
         </div>
-        <FormulateInput
-          label="Densidad del medio (kg/m3)"
-          type="range"
-          name="densityValue"
-          min="700"
-          max="1240"
-          :value="density"
-          show-value="true"
+        <div class="notification-container">
+          <h2 class="subtitle">Fuerza de sustentación</h2>
+          <img
+            src="../assets/question.png"
+            width="20px"
+            height="20px"
+            @click="() => {sustainVisibility = !sustainVisibility}"
+          />
+          <div
+            id="swimmers-info"
+            class="notification sustain-info formulate-input"
+            v-show="sustainVisibility"
+          >
+            <p>La fuerza de sustentación actua de forma perpendicular</p>
+            <p>al movimiento y se puede calcular como:</p>
+            <p>D = CL p S v<sup>2</sup>/2</p>
+            <p>Donde CL es el coeficiente de sustentación, p la densidad</p>
+            <p>del fluido, v la velocidad y S la superficie proyectada</p>
+            <p>perpendicular al movimiento.</p>
+          </div>
+        </div>
+        <FormulateForm v-model="formValues" @submit="handleSubmit">
+          <div class="swimmers-notification-container">
+            <FormulateInput
+              name="swimmer"
+              :options="{
+                first: 'Nadador 1',
+                second: 'Nadador 2',
+                third: 'Nadador 3',
+                fourth: 'Nadador 4'
+                }"
+              value="first"
+              type="radio"
+              label="Selecciona el nadador"
+            />
+            <img
+              src="../assets/question.png"
+              width="20px"
+              height="20px"
+              @click="() => {showSwimmersInfo = !showSwimmersInfo}"
+            />
+            <div
+              class="notification swimmers-info formulate-input"
+              v-show="showSwimmersInfo"
+            >
+              <p>Nadador 1. Altura: 170 cm. Masa: 75 kg.</p>
+              <p>Nadador 2. Altura: 180 cm. Masa: 83 kg.</p>
+              <p>Nadador 3. Altura: 165 cm. Masa: 60 kg.</p>
+              <p>Nadador 4. Altura: 165 cm. Masa: 72 kg.</p>
+            </div>
+          </div>
+          <FormulateInput
+            label="Densidad del medio (kg/m3)"
+            type="range"
+            name="densityValue"
+            min="700"
+            max="1240"
+            :value="density"
+            show-value="true"
+          />
+          <FormulateInput
+            label="Ángulo del nadador (grados)"
+            type="range"
+            name="swimmerAngle"
+            min="0"
+            max="50"
+            :value="angle"
+            show-value="true"
+          />
+          <FormulateInput type="submit" label="Calcular"/>
+        </FormulateForm>
+      </div>
+      <div class="column-right">
+        <GraphComponent
+          :data="dragForceData"
+          title="Fuerza de arrastre"
         />
-        <FormulateInput
-          label="Ángulo del nadador (grados)"
-          type="range"
-          name="swimmerAngle"
-          min="0"
-          max="50"
-          :value="angle"
-          show-value="true"
+        <GraphComponent
+          :data="sustainForceData"
+          title="Fuerza de sustentación"
         />
-        <FormulateInput type="submit" label="Calcular"/>
-      </FormulateForm>
-    </div>
-    <div class="column-right">
-      <GraphComponent
-        :data="dragForceData"
-        title="Fuerza de arrastre"
-      />
-      <GraphComponent
-        :data="sustainForceData"
-        title="Fuerza de sustentación"
-      />
+      </div>
     </div>
   </div>
 </template>
@@ -118,6 +140,7 @@ export default {
   },
   data() {
     return {
+      showBody: false,
       showSwimmersInfo: false,
       dragVisibility: false,
       sustainVisibility: false,
@@ -270,6 +293,34 @@ export default {
 
 .subtitle {
   margin: 15px 0;
+}
+
+.welcome {
+  margin: 0 40px;
+}
+
+.welcome-button {
+  appearance: none;
+  border-radius: .3em;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: .9em;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  padding: .75em;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  line-height: 1.2em;
+  margin: 0;
+  border: 1px solid #41b883;
+  background-color: #41b883;
+  color: #fff;
+  min-width: 0;
+  width: auto;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 }
 
 </style>
