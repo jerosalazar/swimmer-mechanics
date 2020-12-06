@@ -2,7 +2,7 @@
   <div class="row">
     <h1>Mecánica de la natación</h1>
     <br>
-    <div class="column">
+    <div class="column-left">
       <div class="notification-container">
         <h2 class="subtitle">Fuerza de arrastre</h2>
         <img
@@ -96,7 +96,7 @@
         <FormulateInput type="submit" label="Calcular"/>
       </FormulateForm>
     </div>
-    <div class="column">
+    <div class="column-right">
       <GraphComponent
         :data="dragForceData"
         title="Fuerza de arrastre"
@@ -217,7 +217,14 @@ export default {
 </script>
 
 <style>
-.column {
+.column-left {
+  float: left;
+  width: 40%;
+  text-align: left;
+  margin-left: 5%;
+}
+
+.column-right {
   float: left;
   width: 50%;
   text-align: left;
@@ -248,16 +255,16 @@ export default {
 }
 
 .swimmers-info {
-  left: 15%;
+  left: 20%;
 }
 
 .drag-info {
-  left: 20%;
+  left: 25%;
   top: 24%;
 }
 
 .sustain-info {
-  left: 24%;
+  left: 29%;
   top: 35%;
 }
 
